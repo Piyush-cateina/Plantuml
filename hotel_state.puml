@@ -1,4 +1,7 @@
 @startuml
+
+header Hotel State Diagram
+
 [*] --> GuestNotLoggedIn
 
 state GuestNotLoggedIn {

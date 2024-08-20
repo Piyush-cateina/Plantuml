@@ -1,6 +1,8 @@
 @startuml
 start
 
+header Hotel Activity Diagram
+
 :Guest Logs In;
 :Search for Available Rooms;
 :Select Room;

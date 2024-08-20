@@ -1,5 +1,7 @@
 @startuml
 
+header Hotel Class Diagram
+
 enum PaymentStatus {
     Successful
     Cancelled
