@@ -1,0 +1,19 @@
+@startuml
+actor Guest
+participant "Hotel Booking System" as HBS
+participant "Payment System" as PS
+participant "Hotel Staff" as HS
+
+Guest -> HBS: Initiate Booking Request
+HBS -> HBS: Check Room Availability
+HBS --> Guest: Show Available Options
+Guest -> HBS: Select Room and Book
+HBS -> PS: Process Payment Request
+PS -> PS: Process Payment
+PS --> HBS: Payment Confirmation
+HBS -> HBS: Confirm Booking
+HBS -> HS: Send Booking Confirmation
+HS -> HS: Prepare for Guest Check-in
+Guest -> HS: Check-in at Hotel
+@enduml
+

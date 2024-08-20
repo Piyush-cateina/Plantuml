@@ -1,0 +1,44 @@
+@startuml
+start
+
+:Guest Logs In;
+:Search for Available Rooms;
+:Select Room;
+
+if (Room Available?) then (yes)
+    :Proceed with Booking;
+    :Enter Booking Details;
+    :Proceed with Payment;
+    :Payment Successful?;
+    if (Payment Successful?) then (yes)
+        :Booking Confirmed;
+        :Receive Booking Confirmation;
+        :Hotel Staff Prepares Room;
+    else (no)
+        :Payment Failed;
+        stop
+    endif
+else (no)
+    :Display Unavailability Message;
+    stop
+endif
+
+:Guest Cancels Booking?;
+if (Guest Cancels Booking?) then (yes)
+    :Cancel Booking;
+    :Initiate Refund Process;
+    :Refund Successful;
+    stop
+else (no)
+    :Guest Checks In;
+    :Receptionist Provides Room Key;
+    :Guest Uses Room;
+    :Guest Requests Checkout;
+
+    :Proceed with Checkout;
+    :Receptionist Finalizes Checkout;
+    :Housekeeping Prepares Room for Next Guest;
+    stop
+endif
+
+@enduml

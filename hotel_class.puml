@@ -1,0 +1,102 @@
+@startuml
+
+enum PaymentStatus {
+    Successful
+    Cancelled
+    Pending
+}
+
+enum RoomType {
+    Standard
+    Deluxe
+    FamilySuit
+    Business
+}
+
+enum AccountType {
+    Guest
+    Receptionist
+    Housekeeping
+}
+
+
+class Hotel {
+    hotelName: String
+    location: String
+    rooms: List<Room>
+    staff: List<HotelStaff>
+}
+
+class Room {
+    roomNumber: String
+    roomType: RoomType
+    pricePerNight: float
+    availability: boolean
+    checkAvailability(): boolean
+    reserveRoom(): void
+}
+
+
+class Guest {
+    name: String
+    email: String
+    phoneNumber: String
+    accountType: AccountType
+    makeBooking(): Booking
+    cancelBooking(booking: Booking): void
+    checkOut(booking: Booking): void
+}
+
+class Booking {
+    bookingID: String
+    bookingDate: Date
+    status: BookingStatus
+    roomKey: String
+    getDetails(): String
+    cancel(): void
+    finalizePayment(): void
+}
+
+
+class Payment {
+    paymentID: String
+    amount: float
+    paymentDate: Date
+    status: PaymentStatus
+    processPayment(): void
+    refund(): void
+    completeTransactions: List<Payment>
+    failedTransactions: List<Payment>
+}
+
+class HotelStaff {
+    staffID: String
+    name: String
+    accountType: AccountType
+    prepareRoom(booking: Booking): void
+    checkInGuest(guest: Guest, booking: Booking): void
+    checkOutGuest(guest: Guest, booking: Booking): void
+}
+
+class Receptionist {
+    handleBooking(booking: Booking): void
+    manageCheckIn(guest: Guest, booking: Booking): void
+    manageCheckOut(guest: Guest, booking: Booking): void
+}
+
+class Housekeeping {
+    cleanRoom(room: Room): void
+    prepareRoomForNextGuest(room: Room): void
+}
+
+
+Hotel "1" -- "*" Room: has
+Hotel "1" -- "*" HotelStaff: employs
+HotelStaff <|-- Receptionist
+HotelStaff <|-- Housekeeping
+Guest "1" -- "*" Booking: makes
+Booking "1" -- "1" Room: reserves
+Booking "1" -- "1" Payment: is associated with
+HotelStaff "*" -- "1" Booking: manages
+Payment "*" -- "1" Booking: belongs to
+@enduml

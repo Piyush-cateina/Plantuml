@@ -1,0 +1,39 @@
+' @startuml 
+' user -> admin : hello world
+' admin --> user : hii world
+' admin --> user : bhagja yaha se
+' @enduml
+
+@startuml my simple order request
+
+header Sequence Diagram
+footer Page %page% of %lastpage%
+title "Orders Flow"
+actor "web user" as WebUser
+participant "Front End" as Portal 
+participant Gateway
+participant "Identity Server" as IdentityServer #Yellow
+
+
+' Application of request cycle'
+
+WebUser -> Portal ++ : Orders Request
+group Step: Authencation
+Portal -> Gateway ++ : GET /api/v1/orders\nBearer Token
+Gateway -> IdentityServer ++ : Authenticate Token
+IdentityServer --> IdentityServer : Validate\nToken,
+IdentityServer -[#Green]> Gateway -- : Success, Token Validate
+
+else Authencation Failed
+    IdentityServer -[#red]> Gateway--: Request Failed
+    Gateway -[#red]> Portal : Authentication FailureHEADER
+    Portal -[#red]> WebUser : Login Again
+    note right : Authentication has failed
+
+end
+
+' activate Portal
+Portal -> WebUser -- : Response
+' deactivate Portal
+
+@enduml

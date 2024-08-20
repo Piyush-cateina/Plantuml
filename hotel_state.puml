@@ -1,0 +1,52 @@
+@startuml
+[*] --> GuestNotLoggedIn
+
+state GuestNotLoggedIn {
+    [*] --> LoggedOut
+    LoggedOut --> LoggedIn : Guest Logs In
+    LoggedIn --> LoggedOut : Guest Logs Out
+}
+
+GuestNotLoggedIn --> SearchingForRooms : Guest Logs In
+
+state SearchingForRooms {
+    [*] --> RoomSelection
+    RoomSelection --> RoomAvailable : Room Found
+    RoomSelection --> RoomUnavailable : Room Not Found
+    RoomUnavailable --> SearchingForRooms : Search Again
+}
+
+SearchingForRooms --> Booking : Room Available
+Booking --> PaymentPending : Proceed with Booking
+
+state PaymentPending {
+    [*] --> PaymentProcessing
+    PaymentProcessing --> PaymentSuccess : Payment Successful
+    PaymentProcessing --> PaymentFailed : Payment Failed
+}
+
+PaymentPending --> BookingConfirmed : Payment Successful
+PaymentPending --> BookingCancelled : Payment Failed
+
+state BookingConfirmed {
+    [*] --> GuestCancelsBooking
+    GuestCancelsBooking --> RefundInitiated : Guest Cancels Booking
+    RefundInitiated --> RefundSuccessful : Refund Processed
+    RefundSuccessful --> BookingCancelled : Refund Completed
+    GuestCancelsBooking --> GuestChecksIn : No Cancellation
+}
+
+BookingConfirmed --> GuestChecksIn : Guest Checks In
+GuestChecksIn --> GuestUsesRoom : Room Key Provided
+GuestUsesRoom --> GuestRequestsCheckout : End of Stay
+GuestRequestsCheckout --> CheckoutFinalized : Finalize Checkout
+
+state CheckoutFinalized {
+    [*] --> RoomPrepared : Room Cleaned by Housekeeping
+    RoomPrepared --> [*] : Ready for Next Guest
+}
+
+BookingCancelled --> [*]
+CheckoutFinalized --> [*]
+
+@enduml
