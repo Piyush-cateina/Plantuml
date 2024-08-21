@@ -21,7 +21,10 @@ enum AccountType {
     Housekeeping
 }
 
-
+class HotelLocation
+{
+    +location:String
+} 
 class Hotel {
     hotelName: String
     location: String
