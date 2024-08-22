@@ -1,4 +1,5 @@
 @startuml
+
 actor Guest
 participant "Hotel Booking System" as HBS
 participant "Payment System" as PS
@@ -16,4 +17,5 @@ HBS -> HS: Send Booking Confirmation
 HS -> HS: Prepare for Guest Check-in
 Guest -> HS: Check-in at Hotel
 @enduml
+'These are some changes made by Vinayak hope you will consider
 
